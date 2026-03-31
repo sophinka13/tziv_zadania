@@ -1,0 +1,40 @@
+name: a^n b^2n c^n
+source code: |-
+  input: 'aaabbbbbbccc'
+  blank: ' '
+  start state: start
+  final state: done
+  table:
+    start:
+      a: {write: A, R: to_b}
+      B: {R: check}
+    to_b:
+      a: R
+      b: {write: B, R: tag_b}
+      B: R
+    tag_b:
+      b: {write: B, R: to_c}
+    to_c:
+      b: R
+      c: {write: C, L: back_to_a}
+      C: R
+    back_to_a:
+      b: L
+      B: L
+      C: L
+      a: L
+      A: {R: start}
+    check:
+      A: R
+      B: R
+      C: R
+      ' ': {L: done}
+    done:
+positions:
+  start: {x: 335.3, y: 237.95, fixed: false}
+  to_b: {x: 444.66, y: 322.51, fixed: false}
+  tag_b: {x: 573.6, y: 371.1, fixed: false}
+  to_c: {x: 564.63, y: 226.06, fixed: false}
+  back_to_a: {x: 446.34, y: 145.05, fixed: false}
+  check: {x: 204.96, y: 294.48, fixed: false}
+  done: {x: 242.73, y: 154.88, fixed: false}
