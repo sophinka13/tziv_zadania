@@ -1,0 +1,51 @@
+name: ww^R
+source code: |-
+  input: 'abba'
+  blank: ' '
+  start state: start
+  final state: done
+  table:
+    start:
+      a: {write: A, R: haveA}
+      b: {write: B, R: haveB}
+      1: {L: done}
+      0: {L: done}
+    haveA:
+      a: R
+      b: R
+      1: R
+      0: R
+      ' ': {L: isA}
+    isA:
+      1: L
+      0: L
+      a: {write: 0, L: back}
+      
+    haveB:
+      a: R
+      b: R
+      1: R
+      0: R
+      ' ': {L: isB}
+    isB:
+      1: L
+      0: L
+      b: {write: 1, L: back}
+    back:
+      a: L
+      b: L
+      1: L
+      0: L
+      A: {R: start}
+      B: {R: start}
+    done:
+      
+      
+positions:
+  start: {x: 464.58, y: 235.86, fixed: false}
+  haveA: {x: 381.75, y: 355.96, fixed: false}
+  isA: {x: 240.17, y: 333.61, fixed: false}
+  haveB: {x: 453.02, y: 93.05, fixed: false}
+  isB: {x: 309.65, y: 77.38, fixed: false}
+  back: {x: 321.7, y: 217.72, fixed: false}
+  done: {x: 537.24, y: 358.01, fixed: false}
