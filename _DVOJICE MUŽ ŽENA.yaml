@@ -1,0 +1,10 @@
+name: ' DVOJICE MUŽ ŽENA'
+source code: |
+  input: 'angela,Barack,Vladimir,iveta$'
+  blank: ' '
+  start state: start
+  table:
+    start:
+      
+positions:
+  start: {x: 400, y: 250, fixed: false}
