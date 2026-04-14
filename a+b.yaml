@@ -1,0 +1,33 @@
+name: a+b
+source code: |
+  input: '111#11$'
+  blank: ' '
+  start state: start
+  final state: accept
+  table:
+    start:
+      1: {write: 0, R: zaver}
+      '#': R
+      $: {L: uprav}
+      
+    uprav:
+      0: {write: 1, L}
+      '#': L
+      ' ': {R: accept}
+      
+    zaver:
+      [1, '#', $]: R
+      ' ': {write: 1, L: zac}
+      
+    zac:
+      [1, '#', $]: L
+      0: {R: start}
+      
+    accept:
+    
+positions:
+  start: {x: 400.4, y: 392.28, fixed: false}
+  uprav: {x: 400.11, y: 244.79, fixed: false}
+  zaver: {x: 323.08, y: 276.17, fixed: false}
+  zac: {x: 477.24, y: 275.79, fixed: false}
+  accept: {x: 399.34, y: 102.61, fixed: false}
