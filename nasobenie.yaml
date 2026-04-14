@@ -1,0 +1,54 @@
+name: nasobenie
+source code: |-
+  input: '11#11$'
+  blank: ' '
+  start state: predstart
+  table:
+    predstart:
+      1: R
+      '#': {R: oznac}
+    
+    oznac:
+      1: {write: 0, L: back}
+    
+    back:
+      '#': L
+      1: L
+      ' ': {R: start}
+    start:
+      1: {write: 0, R: vysledok}
+      '#': {R: nasobok}
+    vysledok:
+      [1,0,'#',$]: R
+      ' ': {write: 1, L: zac}
+    zac:
+      [1,$,0]: L
+      '#': {L: tozero}
+      
+    nasobok:
+      1: {write: 0, L: tohestek}
+      0: R
+      
+    uprav:
+      [1,'#']: L
+      0: {write: 1, L}
+      ' ': {R: start}
+      
+    tozero:
+      1: L
+      0: {R: start}
+
+    tohestek:
+      [0,1]: L
+      '#': {L: uprav}
+positions:
+  predstart: {x: 292.62, y: 195.14, fixed: false}
+  oznac: {x: 335.3, y: 330.57, fixed: false}
+  back: {x: 474.61, y: 357.5, fixed: false}
+  start: {x: 470.72, y: 214.42}
+  vysledok: {x: 673.11, y: 454.96}
+  zac: {x: 679.19, y: 166.46}
+  nasobok: {x: 236.5, y: 33.33}
+  uprav: {x: 241.65, y: 477.27}
+  tozero: {x: 534.74, y: 85.23}
+  tohestek: {x: 20, y: 216.91}
