@@ -1,0 +1,105 @@
+name: n nad 2
+source code: |-
+  input: '#1111$'
+  blank: ' '
+  start state: prestart
+  final state: halt
+  table:
+    prestart:
+      '#': R
+      1: {write: 0, R: start}
+    start:
+      '#': R
+      1: {write: 0, L: nasobok}
+      0: R
+      '$': {L: uprav}
+    nasobok:
+      [0,'#',1]: L
+      ' ': {write: 1, R: back}
+    back:
+      1: R
+      '#': {R: start}
+    
+    uprav: 
+      0: {write: 1, L}
+      '#': {L: nasobenie}
+      
+    nasobenie:
+      1: {write: 0, R: tag}
+      0: L
+      ' ': {R: vysledok}
+
+    tag:
+      '#': R
+      0: R
+      1: {write: 0, R: vypocet}
+      $: {L: uprav}
+      
+    vypocet:
+      1: R
+      0: R
+      $: R
+      '#': R
+      ' ': {write: 1, L: backtozero}
+    
+    backtozero:
+      1: L
+      $: L
+      0: {R: tag}
+      
+    vysledok:
+      [1,0,'#']: R
+      $: {R: delenie}
+      
+    delenie:
+      1: {write: 0, R: najdi_koniec}
+      0: {L: reset}
+      ' ': {L: reset}
+      
+    najdi_koniec:
+      1: R
+      ' ': {L: odstran}
+      
+    odstran:
+      1: {write: ' ', L: back_to_delenie}
+      
+    back_to_delenie:
+      1: L
+      0: {R: delenie}
+      
+    reset:
+      0: {write: 1, L}
+      1: L
+      '#': {write: ' ', L: cistenie}
+      '$': L
+      
+    cistenie:
+      0: {write: ' ', L}
+      ' ': {L: navrat}
+      
+    navrat:
+      ' ': R
+      1: R
+      '$': {R: halt}
+      
+    halt:
+    
+positions:
+  prestart: {x: 616.28, y: 40.55}
+  start: {x: 314.43, y: 20}
+  nasobok: {x: 333.39, y: 205.21}
+  back: {x: 145.73, y: 20}
+  uprav: {x: 607.4, y: 129.41}
+  nasobenie: {x: 552.42, y: 338.39}
+  tag: {x: 689.9, y: 249.49, fixed: false}
+  vypocet: {x: 740.23, y: 72.7}
+  backtozero: {x: 762.22, y: 400.86}
+  vysledok: {x: 488.1, y: 225.04}
+  delenie: {x: 256.88, y: 255.01}
+  najdi_koniec: {x: 406.13, y: 365.83}
+  odstran: {x: 333.61, y: 480, fixed: false}
+  back_to_delenie: {x: 216.28, y: 403.54, fixed: false}
+  reset: {x: 46.73, y: 246.44}
+  cistenie: {x: 180.51, y: 191.63, fixed: false}
+  navrat: {x: 297.52, y: 97.3}
+  halt: {x: 84.14, y: 113}
