@@ -1,10 +1,78 @@
-name: ' DVOJICE MUŽ ŽENA'
-source code: |
-  input: 'angela,Barack,Vladimir,iveta$'
-  blank: ' '
-  start state: start
-  table:
-    start:
-      
-positions:
-  start: {x: 400, y: 250, fixed: false}
+input: 'aaa,Bbb,aaaa,Bbbb$'
+abeceda_mala: ['a','b','c','d','e','f','g']
+abeceda_velka: ['A','B','C','D','E','F','G']
+abeceda_cisla: [0,1,2,3,4,5,6]
+blank: ' '
+start state: start
+table:
+  start:
+    ['a','b','c','d','e','f','g']: {L: znak_pre_nasobky}
+    ['A','B','C','D','E','F','G']: {L: znak_pre_nasobky}
+
+  znak_pre_nasobky:
+    ' ': {write: '#', R: nasobok_zena}
+    
+  nasobok_zena:
+    '#': R
+    ['a','b','c','d','e','f','g']: {write: á, L: nasobenie_zena}
+    ['A','B','C','D','E','F','G']: {R: find_ciarka_zena}
+    [á, ß]: {R: find_ciarka_zena}
+    ',': R
+    
+  nasoboky_muzov_znak:
+    ['a','b','c','d','e','f','g']: L
+    ['A','B','C','D','E','F','G']: L
+    [á, ß]: L
+    '#': L
+    ',': L
+    1: L
+    ' ': {write: '@', R: nasobok_muz}
+    
+  nasobok_muz:
+    '#': R
+    1: R
+    ['a','b','c','d','e','f','g']: {R: find_ciarka_muz}
+    ['A','B','C','D','E','F','G']: {write: ß, L: nasobenie_muz}
+    ['á', 'ß']: {R: find_ciarka_muz}
+    ',': R
+  
+  nasobenie_zena:
+    '#': L
+    ',': L
+    ['a','b','c','d','e','f','g']: L
+    ['A','B','C','D','E','F','G']: L
+    [á, ß]: L
+    1: L
+    ' ': {write: 1, R: find_ciarka_zena}
+  
+  nasobenie_muz:
+    '#': L
+    '@': L
+    ',': L
+    ['a','b','c','d','e','f','g']: L
+    ['A','B','C','D','E','F','G']: L
+    [á, ß]: L
+    1: L
+    ' ': {write: 1, R: find_ciarka_muz}
+    
+  find_ciarka_zena:
+    '#': R
+    $: {L: nasoboky_muzov_znak}
+    1: R
+    [á, ß]: R
+    ['a','b','c','d','e','f','g']: R
+    ['A','B','C','D','E','F','G']: R
+    ',': {R: nasobok_zena}
+    
+  find_ciarka_muz:
+    '#': R
+    '@': R
+    $: {L: nasoboky_muzov_znak}
+    1: R
+    [á, ß]: R
+    ['a','b','c','d','e','f','g']: R
+    ['A','B','C','D','E','F','G']: R
+    ',': {R: nasobok_muz}
+  
+    
+
