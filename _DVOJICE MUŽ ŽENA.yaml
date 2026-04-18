@@ -26,6 +26,7 @@ table:
     '#': L
     ',': L
     1: L
+    '@': {L: find_blank}
     ' ': {write: '@', R: nasobok_muz}
     
   nasobok_muz:
@@ -74,5 +75,65 @@ table:
     ['A','B','C','D','E','F','G']: R
     ',': {R: nasobok_muz}
   
+  find_blank:
+    1: L
+    0: L
+    ' ': {R: vypocet}
     
+  vypocet:
+    1: {write: 0, R: find_zavinac}
+    '@': {R: to_nasobky}
+    
+  find_zavinac:
+    1: R
+    '@': {R: nasobok}
+    
+  nasobok:
+    1: {write: 0, R: prechod_k_vysledku}
+    '#': {L: uprava}
+  
+  prechod_k_vysledku:
+    ['a','b','c','d','e','f','g']: R
+    ['A','B','C','D','E','F','G']: R
+    [á, ß]: R
+    '#': R
+    1: R
+    $: {R: vysledok}
+    ',': R
+    
+  vysledok:
+    ' ': {write: 1, L: back_to_hes}
+    1: R
+  
+  back_to_hes:
+    ['a','b','c','d','e','f','g']: L
+    ['A','B','C','D','E','F','G']: L
+    [á, ß]: L
+    '#': L
+    1: L
+    $: L
+    ',': L
+    0: {R: nasobok}
+    
+  uprava:
+    0: {write: 1, L}
+    '@': {L: to_zero}
+    
+  to_zero:
+    1: L
+    0: {R: vypocet}
+    
+  to_nasobky:
+    1: R
+    '#': {R: zmaz}
+    
+  zmaz:
+    [á, ß]: L
+    [1,0,'#','@']: {write: ' ', L}
+    ' ': {R: find_zaciatok}
+    
+  find_zaciatok:
+    ' ': R
+
+
 
