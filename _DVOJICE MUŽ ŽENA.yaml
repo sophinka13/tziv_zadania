@@ -135,5 +135,30 @@ table:
   find_zaciatok:
     ' ': R
 
+  modulo0_zena:
+    ['a','b','c','d','e','f','g']: {R: modulo1_zena}
+    ['A','B','C','D','E','F','G']: {R: modulo1_zena}
+    [á, ß]: {R: modulo1_zena}
+    ',': {R: vysledok0_zena}
+    '$': {R: vysledok0_zena}
 
-
+  
+  modulo1_zena:
+    ['a','b','c','d','e','f','g']: {R: modulo2_zena}
+    ['A','B','C','D','E','F','G']: {R: modulo2_zena}
+    [á, ß]: {R: modulo2_zena}
+    ',': {R: vysledok1_zena}
+    '$': {R: vysledok1_zena}
+  
+  modulo2_zena:
+    ['a','b','c','d','e','f','g']: {R: modulo0_zena}
+    ['A','B','C','D','E','F','G']: {R: modulo0_zena}
+    ',': {R: vysledok2_zena}
+    '$': {R: vysledok2_zena}
+    
+  vysledok0_zena:
+    
+  vysledok1_zena:
+  
+  vysledok2_zena:
+    
