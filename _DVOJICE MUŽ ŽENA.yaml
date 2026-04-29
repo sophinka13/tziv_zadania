@@ -1,28 +1,31 @@
-input: 'aaa,Bbb,aaaa,Bbbb$'
-abeceda_mala: ['a','b','c','d','e','f','g']
-abeceda_velka: ['A','B','C','D','E','F','G']
-abeceda_cisla: [0,1,2,3,4,5,6]
+input: 'abcd,Gabbb,a,Cd,b$'
 blank: ' '
 start state: start
 table:
   start:
-    ['a','b','c','d','e','f','g']: {L: znak_pre_nasobky}
-    ['A','B','C','D','E','F','G']: {L: znak_pre_nasobky}
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G']: {L: znak_pre_nasobky}
 
   znak_pre_nasobky:
     ' ': {write: '#', R: nasobok_zena}
     
   nasobok_zena:
     '#': R
-    ['a','b','c','d','e','f','g']: {write: á, L: nasobenie_zena}
+    a: {write: h, L: nasobenie_zena}
+    b: {write: i, L: nasobenie_zena}
+    c: {write: j, L: nasobenie_zena}
+    d: {write: k, L: nasobenie_zena}
+    e: {write: l, L: nasobenie_zena}
+    f: {write: m, L: nasobenie_zena}
+    g: {write: n, L: nasobenie_zena}
     ['A','B','C','D','E','F','G']: {R: find_ciarka_zena}
-    [á, ß]: {R: find_ciarka_zena}
+    ['h','i','j','k','l','m','n']: {R: find_ciarka_zena}
     ',': R
     
   nasoboky_muzov_znak:
     ['a','b','c','d','e','f','g']: L
     ['A','B','C','D','E','F','G']: L
-    [á, ß]: L
+    ['h','i','j','k','l','m','n']: L
+    [1,2,3,4,5,6,7,8]: L
     '#': L
     ',': L
     1: L
@@ -33,8 +36,15 @@ table:
     '#': R
     1: R
     ['a','b','c','d','e','f','g']: {R: find_ciarka_muz}
-    ['A','B','C','D','E','F','G']: {write: ß, L: nasobenie_muz}
-    ['á', 'ß']: {R: find_ciarka_muz}
+    A: {write: 2, L: nasobenie_muz}
+    B: {write: 3, L: nasobenie_muz}
+    C: {write: 4, L: nasobenie_muz}
+    D: {write: 5, L: nasobenie_muz}
+    E: {write: 6, L: nasobenie_muz}
+    F: {write: 7, L: nasobenie_muz}
+    G: {write: 8, L: nasobenie_muz}
+    [1,2,3,4,5,6,7,8]: {R: find_ciarka_muz}
+    ['h','i','j','k','l','m','n']: {R: find_ciarka_muz}
     ',': R
   
   nasobenie_zena:
@@ -42,7 +52,7 @@ table:
     ',': L
     ['a','b','c','d','e','f','g']: L
     ['A','B','C','D','E','F','G']: L
-    [á, ß]: L
+    ['h','i','j','k','l','m','n']: L
     1: L
     ' ': {write: 1, R: find_ciarka_zena}
   
@@ -52,7 +62,8 @@ table:
     ',': L
     ['a','b','c','d','e','f','g']: L
     ['A','B','C','D','E','F','G']: L
-    [á, ß]: L
+    ['h','i','j','k','l','m','n']: L
+    [1,2,3,4,5,6,7,8]: L
     1: L
     ' ': {write: 1, R: find_ciarka_muz}
     
@@ -60,9 +71,10 @@ table:
     '#': R
     $: {L: nasoboky_muzov_znak}
     1: R
-    [á, ß]: R
+    ['h','i','j','k','l','m','n']: R
     ['a','b','c','d','e','f','g']: R
     ['A','B','C','D','E','F','G']: R
+    [1,2,3,4,5,6,7,8]: R
     ',': {R: nasobok_zena}
     
   find_ciarka_muz:
@@ -70,7 +82,7 @@ table:
     '@': R
     $: {L: nasoboky_muzov_znak}
     1: R
-    [á, ß]: R
+    ['h','i','j','k','l','m','n']: R
     ['a','b','c','d','e','f','g']: R
     ['A','B','C','D','E','F','G']: R
     ',': {R: nasobok_muz}
@@ -95,7 +107,8 @@ table:
   prechod_k_vysledku:
     ['a','b','c','d','e','f','g']: R
     ['A','B','C','D','E','F','G']: R
-    [á, ß]: R
+    ['h','i','j','k','l','m','n']: R
+    [1,2,3,4,5,6,7,8]: R
     '#': R
     1: R
     $: {R: vysledok}
@@ -108,7 +121,8 @@ table:
   back_to_hes:
     ['a','b','c','d','e','f','g']: L
     ['A','B','C','D','E','F','G']: L
-    [á, ß]: L
+    ['h','i','j','k','l','m','n']: L
+    [1,2,3,4,5,6,7,8]: L
     '#': L
     1: L
     $: L
@@ -128,37 +142,250 @@ table:
     '#': {R: zmaz}
     
   zmaz:
-    [á, ß]: L
+    ['h','i','j','k','l','m','n']: L
     [1,0,'#','@']: {write: ' ', L}
     ' ': {R: find_zaciatok}
     
   find_zaciatok:
+    ['a','b','c','d','e','f','g']: L
+    ['A','B','C','D','E','F','G']: L
+    ' ': {R: uprava_naspat}
+   
+  uprava_naspat:
     ' ': R
+    ',': R
+    ['a','b','c','d','e','f','g']: R
+    ['A','B','C','D','E','F','G']: R
+    h: {write: a, R}
+    i: {write: b, R}
+    j: {write: c, R}
+    k: {write: d, R}
+    l: {write: e, R}
+    m: {write: f, R}
+    n: {write: g, R}
+    2: {write: A, L}
+    3: {write: B, L}
+    4: {write: C, L}
+    5: {write: D, L}
+    6: {write: E, L}
+    7: {write: F, L}
+    8: {write: G, L}
+    '$': {R: append_second_dollar}
 
-  modulo0_zena:
-    ['a','b','c','d','e','f','g']: {R: modulo1_zena}
-    ['A','B','C','D','E','F','G']: {R: modulo1_zena}
-    [á, ß]: {R: modulo1_zena}
-    ',': {R: vysledok0_zena}
-    '$': {R: vysledok0_zena}
+  append_second_dollar:
+    1: R
+    ' ': {write: '$', L: back_left_ideal_start}
 
-  
-  modulo1_zena:
-    ['a','b','c','d','e','f','g']: {R: modulo2_zena}
-    ['A','B','C','D','E','F','G']: {R: modulo2_zena}
-    [á, ß]: {R: modulo2_zena}
-    ',': {R: vysledok1_zena}
-    '$': {R: vysledok1_zena}
-  
-  modulo2_zena:
-    ['a','b','c','d','e','f','g']: {R: modulo0_zena}
-    ['A','B','C','D','E','F','G']: {R: modulo0_zena}
-    ',': {R: vysledok2_zena}
-    '$': {R: vysledok2_zena}
-    
-  vysledok0_zena:
-    
-  vysledok1_zena:
-  
-  vysledok2_zena:
-    
+  back_left_ideal_start:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G',',','$',1]: L
+    ' ': {R: select_female_ideal}
+
+  select_female_ideal:
+    a: {write: h, R: female_mod1}
+    b: {write: i, R: female_mod1}
+    c: {write: j, R: female_mod1}
+    d: {write: k, R: female_mod1}
+    e: {write: l, R: female_mod1}
+    f: {write: m, R: female_mod1}
+    g: {write: n, R: female_mod1}
+    ['h','i','j','k','l','m','n','A','B','C','D','E','F','G']: {R: skip_name_ideal}
+    ',': R
+    '$': {L: restore_females_final}
+
+  skip_name_ideal:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n']: R
+    ',': {R: select_female_ideal}
+    '$': {L: restore_females_final}
+
+  female_mod0:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G']: {R: female_mod1}
+    ',': {L: go_left_target0}
+    '$': {L: go_left_target0}
+
+  female_mod1:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G']: {R: female_mod2}
+    ',': {L: go_left_target2}
+    '$': {L: go_left_target2}
+
+  female_mod2:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G']: {R: female_mod0}
+    ',': {L: go_left_target1}
+    '$': {L: go_left_target1}
+
+  go_left_target0:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',',','$',1,2,3,4,5,6,7,8]: L
+    ' ': {R: scan_male_target0}
+
+  go_left_target1:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',',','$',1,2,3,4,5,6,7,8]: L
+    ' ': {R: scan_male_target1}
+
+  go_left_target2:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',',','$',1,2,3,4,5,6,7,8]: L
+    ' ': {R: scan_male_target2}
+
+  scan_male_target0:
+    A: {write: 2, R: male_t0_mod1}
+    B: {write: 3, R: male_t0_mod1}
+    C: {write: 4, R: male_t0_mod1}
+    D: {write: 5, R: male_t0_mod1}
+    E: {write: 6, R: male_t0_mod1}
+    F: {write: 7, R: male_t0_mod1}
+    G: {write: 8, R: male_t0_mod1}
+    ['a','b','c','d','e','f','g','h','i','j','k','l','m','n',2,3,4,5,6,7,8]: {R: skip_male_t0}
+    ',': R
+    '$': {L: restore_males_t0}
+
+  scan_male_target1:
+    A: {write: 2, R: male_t1_mod1}
+    B: {write: 3, R: male_t1_mod1}
+    C: {write: 4, R: male_t1_mod1}
+    D: {write: 5, R: male_t1_mod1}
+    E: {write: 6, R: male_t1_mod1}
+    F: {write: 7, R: male_t1_mod1}
+    G: {write: 8, R: male_t1_mod1}
+    ['a','b','c','d','e','f','g','h','i','j','k','l','m','n',2,3,4,5,6,7,8]: {R: skip_male_t1}
+    ',': R
+    '$': {L: restore_males_t1}
+
+  scan_male_target2:
+    A: {write: 2, R: male_t2_mod1}
+    B: {write: 3, R: male_t2_mod1}
+    C: {write: 4, R: male_t2_mod1}
+    D: {write: 5, R: male_t2_mod1}
+    E: {write: 6, R: male_t2_mod1}
+    F: {write: 7, R: male_t2_mod1}
+    G: {write: 8, R: male_t2_mod1}
+    ['a','b','c','d','e','f','g','h','i','j','k','l','m','n',2,3,4,5,6,7,8]: {R: skip_male_t2}
+    ',': R
+    '$': {L: restore_males_t2}
+
+  skip_male_t0:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',2,3,4,5,6,7,8]: R
+    ',': {R: scan_male_target0}
+    '$': {L: restore_males_t0}
+
+  skip_male_t1:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',2,3,4,5,6,7,8]: R
+    ',': {R: scan_male_target1}
+    '$': {L: restore_males_t1}
+
+  skip_male_t2:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',2,3,4,5,6,7,8]: R
+    ',': {R: scan_male_target2}
+    '$': {L: restore_males_t2}
+
+  male_t0_mod0:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G']: {R: male_t0_mod1}
+    ',': {R: append_ideal_t0}
+    '$': {R: append_ideal_t0}
+
+  male_t0_mod1:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G']: {R: male_t0_mod2}
+    ',': {L: back_left_scan_t0}
+    '$': {L: back_left_scan_t0}
+
+  male_t0_mod2:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G']: {R: male_t0_mod0}
+    ',': {L: back_left_scan_t0}
+    '$': {L: back_left_scan_t0}
+
+  male_t1_mod0:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G']: {R: male_t1_mod1}
+    ',': {L: back_left_scan_t1}
+    '$': {L: back_left_scan_t1}
+
+  male_t1_mod1:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G']: {R: male_t1_mod2}
+    ',': {R: append_ideal_t1}
+    '$': {R: append_ideal_t1}
+
+  male_t1_mod2:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G']: {R: male_t1_mod0}
+    ',': {L: back_left_scan_t1}
+    '$': {L: back_left_scan_t1}
+
+  male_t2_mod0:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G']: {R: male_t2_mod1}
+    ',': {L: back_left_scan_t2}
+    '$': {L: back_left_scan_t2}
+
+  male_t2_mod1:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G']: {R: male_t2_mod2}
+    ',': {L: back_left_scan_t2}
+    '$': {L: back_left_scan_t2}
+
+  male_t2_mod2:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G']: {R: male_t2_mod0}
+    ',': {R: append_ideal_t2}
+    '$': {R: append_ideal_t2}
+
+  append_ideal_t0:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',2,3,4,5,6,7,8,',','$',1]: R
+    ' ': {write: 1, L: back_left_scan_t0}
+
+  append_ideal_t1:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',2,3,4,5,6,7,8,',','$',1]: R
+    ' ': {write: 1, L: back_left_scan_t1}
+
+  append_ideal_t2:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',2,3,4,5,6,7,8,',','$',1]: R
+    ' ': {write: 1, L: back_left_scan_t2}
+
+  back_left_scan_t0:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',2,3,4,5,6,7,8,',','$',1]: L
+    ' ': {R: scan_male_target0}
+
+  back_left_scan_t1:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',2,3,4,5,6,7,8,',','$',1]: L
+    ' ': {R: scan_male_target1}
+
+  back_left_scan_t2:
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',2,3,4,5,6,7,8,',','$',1]: L
+    ' ': {R: scan_male_target2}
+
+  restore_males_t0:
+    2: {write: A, L}
+    3: {write: B, L}
+    4: {write: C, L}
+    5: {write: D, L}
+    6: {write: E, L}
+    7: {write: F, L}
+    8: {write: G, L}
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',',']: L
+    ' ': {R: select_female_ideal}
+
+  restore_males_t1:
+    2: {write: A, L}
+    3: {write: B, L}
+    4: {write: C, L}
+    5: {write: D, L}
+    6: {write: E, L}
+    7: {write: F, L}
+    8: {write: G, L}
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',',']: L
+    ' ': {R: select_female_ideal}
+
+  restore_males_t2:
+    2: {write: A, L}
+    3: {write: B, L}
+    4: {write: C, L}
+    5: {write: D, L}
+    6: {write: E, L}
+    7: {write: F, L}
+    8: {write: G, L}
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G','h','i','j','k','l','m','n',',']: L
+    ' ': {R: select_female_ideal}
+
+  restore_females_final:
+    h: {write: a, L}
+    i: {write: b, L}
+    j: {write: c, L}
+    k: {write: d, L}
+    l: {write: e, L}
+    m: {write: f, L}
+    n: {write: g, L}
+    ['a','b','c','d','e','f','g','A','B','C','D','E','F','G',',']: L
+    ' ': {R: done}
+
+  done:
